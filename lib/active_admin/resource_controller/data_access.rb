@@ -1,6 +1,5 @@
 module ActiveAdmin
   class ResourceController < BaseController
-  require 'will_paginate/array'
 
     # This module overrides most of the data access methods in Inherited
     # Resources to provide Active Admin with it's data.

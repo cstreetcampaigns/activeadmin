@@ -264,7 +264,7 @@ module ActiveAdmin
 
     def controllers_for_filters
       controllers = [BaseController]
-      controllers.push *Devise.controllers_for_filters if Dependency.devise?
+      controllers.push(*Devise.controllers_for_filters) if Dependency.devise?
       controllers
     end
 

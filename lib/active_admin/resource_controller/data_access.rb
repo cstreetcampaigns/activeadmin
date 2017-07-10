@@ -1,5 +1,6 @@
 module ActiveAdmin
   class ResourceController < BaseController
+  require 'will_paginate/array'
 
     # This module overrides most of the data access methods in Inherited
     # Resources to provide Active Admin with it's data.
@@ -226,7 +227,7 @@ module ActiveAdmin
 
       def apply_includes(chain)
         if active_admin_config.includes.any?
-          chain.includes *active_admin_config.includes
+          chain.includes(*active_admin_config.includes)
         else
           chain
         end
@@ -249,6 +250,12 @@ module ActiveAdmin
         return chain if chain.respond_to?(:total_pages)
         page_method_name = Kaminari.config.page_method_name
         page = params[Kaminari.config.param_name]
+
+        if chain.class == Array
+          ids = []
+          chain.each { |item| ids << item.id }
+          chain = chain.first.class.where(id: ids)
+        end
 
         chain.public_send(page_method_name, page).per(per_page)
       end
